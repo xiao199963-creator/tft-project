@@ -7,6 +7,19 @@ from app.main import app
 client = TestClient(app)
 
 
+def test_api_allows_preflight_requests_from_local_vite():
+    response = client.options(
+        "/comps",
+        headers={
+            "Origin": "http://localhost:5173",
+            "Access-Control-Request-Method": "GET",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == "http://localhost:5173"
+
+
 def test_comps_endpoint_returns_filtered_compositions():
     response = client.get("/comps", params={"region": "OC1", "rank_tier": "Diamond+", "playstyle": "Fast 8"})
 
