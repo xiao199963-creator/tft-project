@@ -78,7 +78,7 @@ export default function DashboardPage() {
           <MetricCards summary={summary} />
           <section className="composition-section" aria-labelledby="composition-heading">
             <h2 id="composition-heading">Composition performance</h2>
-            <CompositionTable compositions={compositions} />
+            <CompositionTable compositions={compositions} filters={filters} />
           </section>
         </>
       )}

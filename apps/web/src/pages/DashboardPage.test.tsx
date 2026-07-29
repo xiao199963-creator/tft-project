@@ -1,8 +1,9 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import DashboardPage from "./DashboardPage";
 
-vi.mock("../api/client", () => ({
+vi.mock("../api/client", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../api/client")>()),
   fetchComps: vi.fn(async () => ({
     items: [
       {
@@ -43,5 +44,23 @@ describe("DashboardPage", () => {
 
     await waitFor(() => expect(screen.getByText("Rebel Fast 8")).toBeInTheDocument());
     expect(screen.getByText("1,200")).toBeInTheDocument();
+  });
+
+  it("preserves active filters in composition detail links", async () => {
+    const { container } = render(<DashboardPage />);
+    const page = within(container);
+
+    await waitFor(() => expect(page.getByText("Rebel Fast 8")).toBeInTheDocument());
+    fireEvent.change(page.getByLabelText("Patch"), { target: { value: "14.15" } });
+    fireEvent.change(page.getByLabelText("Region"), { target: { value: "OC1" } });
+    fireEvent.change(page.getByLabelText("Rank tier"), { target: { value: "Diamond+" } });
+    fireEvent.change(page.getByLabelText("Playstyle"), { target: { value: "Fast 8" } });
+
+    await waitFor(() => {
+      expect(page.getByRole("link", { name: "Rebel Fast 8" })).toHaveAttribute(
+        "href",
+        "/comps/rebel-fast-8?patch=14.15&region=OC1&rank_tier=Diamond%2B&playstyle=Fast+8",
+      );
+    });
   });
 });

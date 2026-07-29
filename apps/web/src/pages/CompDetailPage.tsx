@@ -9,16 +9,17 @@ type LoadState = "loading" | "ready" | "empty" | "error";
 
 type CompDetailPageProps = {
   slug: string;
+  filters?: MetaFilters;
 };
 
-const filters: MetaFilters = {};
+const emptyFilters: MetaFilters = {};
 const numberFormatter = new Intl.NumberFormat("en-US");
 
 function formatPercent(value: number) {
   return new Intl.NumberFormat("en-US", { style: "percent", maximumFractionDigits: 1 }).format(value);
 }
 
-export default function CompDetailPage({ slug }: CompDetailPageProps) {
+export default function CompDetailPage({ slug, filters = emptyFilters }: CompDetailPageProps) {
   const [detail, setDetail] = useState<CompositionDetail | null>(null);
   const [trends, setTrends] = useState<TrendPoint[]>([]);
   const [state, setState] = useState<LoadState>("loading");
@@ -51,7 +52,7 @@ export default function CompDetailPage({ slug }: CompDetailPageProps) {
     return () => {
       active = false;
     };
-  }, [slug]);
+  }, [filters, slug]);
 
   return (
     <main className="app-shell">

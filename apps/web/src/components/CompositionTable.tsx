@@ -1,7 +1,9 @@
-import type { CompositionSummary } from "../types";
+import { buildQueryString } from "../api/client";
+import type { CompositionSummary, MetaFilters } from "../types";
 
 type CompositionTableProps = {
   compositions: CompositionSummary[];
+  filters: MetaFilters;
 };
 
 const numberFormatter = new Intl.NumberFormat("en-US");
@@ -10,7 +12,9 @@ function formatPercent(value: number) {
   return new Intl.NumberFormat("en-US", { style: "percent", maximumFractionDigits: 1 }).format(value);
 }
 
-export function CompositionTable({ compositions }: CompositionTableProps) {
+export function CompositionTable({ compositions, filters }: CompositionTableProps) {
+  const filterQuery = buildQueryString({ filters });
+
   return (
     <div className="table-scroll">
       <table className="composition-table">
@@ -30,7 +34,7 @@ export function CompositionTable({ compositions }: CompositionTableProps) {
         <tbody>
           {compositions.map((composition) => (
             <tr key={composition.id}>
-              <th scope="row"><a href={`/comps/${composition.slug}`}>{composition.name}</a></th>
+              <th scope="row"><a href={`/comps/${composition.slug}${filterQuery}`}>{composition.name}</a></th>
               <td>{composition.playstyle}</td>
               <td>{composition.difficulty}</td>
               <td>{composition.stats.average_placement.toFixed(2)}</td>
