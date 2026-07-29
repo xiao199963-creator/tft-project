@@ -10,9 +10,22 @@ TFT Meta Analytics is a working portfolio dashboard for comparing Teamfight Tact
 
 Version 1 uses curated, static aggregate mock data so the dashboard is ready to run and discuss without a Riot API key. PostgreSQL is included in the local architecture for the production-oriented data layer; the current API responses are backed by the curated seed data.
 
-## Run locally
+## Local Development
 
-Start the API in one terminal:
+Run the complete local development stack:
+
+```bash
+docker compose up --build
+```
+
+- Web: http://localhost:5173
+- API: http://localhost:8000
+- API docs: http://localhost:8000/docs
+
+The dashboard uses curated seed data. It does not require a Riot API key or
+provide live Riot API ingestion, accounts, agent chat, or real-time tracking.
+
+For running services outside Docker, start the API in one terminal:
 
 ```bash
 cd apps/api
@@ -28,11 +41,10 @@ npm install
 VITE_API_BASE_URL=http://localhost:8000 npm run dev
 ```
 
-Open `http://localhost:5173`.
-
-## Test
+## Test Commands
 
 ```bash
 cd apps/api && python -m pytest -v
-cd apps/web && npm test && npm run build
+cd apps/web && npm test
+cd apps/web && npm run build
 ```
