@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title description">
+  <title id="title">TFT Meta Analytics screenshot placeholder</title>
+  <desc id="description">Replace with a dashboard screenshot before portfolio publication.</desc>
+  <rect width="1200" height="675" fill="#101827"/>
+  <rect x="70" y="65" width="1060" height="545" rx="8" fill="#172236" stroke="#3c4e6d" stroke-width="2"/>
+  <text x="600" y="320" fill="#dce6f7" font-family="Arial, sans-serif" font-size="42" text-anchor="middle">Dashboard screenshot placeholder</text>
+  <text x="600" y="375" fill="#91a4c3" font-family="Arial, sans-serif" font-size="24" text-anchor="middle">Capture the running current-patch view before publishing.</text>
+</svg>
