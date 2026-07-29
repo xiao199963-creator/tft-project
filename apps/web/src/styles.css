@@ -142,6 +142,18 @@ select:focus-visible {
   font-size: 0.94rem;
 }
 
+.composition-table a,
+.back-link {
+  color: #0b6650;
+  font-weight: 700;
+}
+
+.composition-table a:focus-visible,
+.back-link:focus-visible {
+  outline: 2px solid #0d7a5f;
+  outline-offset: 2px;
+}
+
 .composition-table tbody tr:hover {
   background: #f1f7f3;
 }
@@ -162,6 +174,96 @@ select:focus-visible {
   margin-bottom: 0;
 }
 
+.back-link {
+  font-size: 0.9rem;
+}
+
+.detail-summary {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 1fr);
+  margin-bottom: 28px;
+}
+
+.detail-summary h2 {
+  font-size: 1.55rem;
+  margin-bottom: 8px;
+}
+
+.detail-summary > div > p:last-child {
+  color: #52645b;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.detail-metrics {
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.detail-metrics div {
+  background: #ffffff;
+  border: 1px solid #d6dfda;
+  padding: 14px;
+}
+
+.detail-metrics dt {
+  color: #52645b;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+.detail-metrics dd {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.trend-section {
+  border-top: 1px solid #cbd5d0;
+  margin-bottom: 28px;
+  padding-top: 22px;
+}
+
+.trend-chart {
+  background: #ffffff;
+  border: 1px solid #d6dfda;
+  height: 320px;
+  padding: 12px;
+}
+
+.detail-lists {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.detail-list {
+  border-top: 1px solid #cbd5d0;
+  padding-top: 16px;
+}
+
+.detail-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.detail-list li {
+  border-bottom: 1px solid #dbe3df;
+  line-height: 1.4;
+  padding: 10px 0;
+}
+
+.detail-list span {
+  color: #52645b;
+  display: block;
+  font-size: 0.88rem;
+}
+
 @media (max-width: 880px) {
   .filter-bar {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -169,6 +271,11 @@ select:focus-visible {
 
   .metric-cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .detail-summary,
+  .detail-lists {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -178,7 +285,14 @@ select:focus-visible {
   }
 
   .filter-bar,
-  .metric-cards {
+  .metric-cards,
+  .detail-metrics {
     grid-template-columns: 1fr;
+  }
+
+  .dashboard-header {
+    align-items: flex-start;
+    gap: 12px;
+    flex-direction: column;
   }
 }

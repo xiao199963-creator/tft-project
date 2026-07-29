@@ -30,7 +30,7 @@ export function CompositionTable({ compositions }: CompositionTableProps) {
         <tbody>
           {compositions.map((composition) => (
             <tr key={composition.id}>
-              <th scope="row">{composition.name}</th>
+              <th scope="row"><a href={`/comps/${composition.slug}`}>{composition.name}</a></th>
               <td>{composition.playstyle}</td>
               <td>{composition.difficulty}</td>
               <td>{composition.stats.average_placement.toFixed(2)}</td>
