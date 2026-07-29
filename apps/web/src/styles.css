@@ -1,7 +1,7 @@
 :root {
-  font-family: Arial, sans-serif;
-  color: #1f2933;
-  background: #f7f9fc;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  color: #17202a;
+  background: #f4f7f5;
 }
 
 body {
@@ -9,5 +9,176 @@ body {
 }
 
 .app-shell {
-  padding: 2rem;
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 1440px;
+  min-height: 100vh;
+  padding: 32px clamp(20px, 4vw, 56px) 56px;
+}
+
+.dashboard-header {
+  align-items: flex-end;
+  border-bottom: 1px solid #cbd5d0;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+}
+
+.eyebrow {
+  color: #52645b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: clamp(1.7rem, 3vw, 2.35rem);
+  line-height: 1.15;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+}
+
+.filter-bar {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(5, minmax(132px, 1fr));
+  margin-bottom: 24px;
+}
+
+.filter-bar label {
+  color: #52645b;
+  display: grid;
+  font-size: 0.78rem;
+  font-weight: 700;
+  gap: 6px;
+}
+
+select {
+  background: #ffffff;
+  border: 1px solid #aebdb5;
+  border-radius: 4px;
+  color: #17202a;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  min-height: 38px;
+  padding: 7px 10px;
+}
+
+select:focus-visible {
+  outline: 2px solid #0d7a5f;
+  outline-offset: 2px;
+}
+
+.metric-cards {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 28px;
+}
+
+.metric-card {
+  background: #ffffff;
+  border: 1px solid #d6dfda;
+  border-radius: 6px;
+  padding: 18px;
+}
+
+.metric-card p {
+  color: #52645b;
+  font-size: 0.83rem;
+  font-weight: 600;
+  margin-bottom: 9px;
+}
+
+.metric-card strong {
+  font-size: 1.55rem;
+}
+
+.composition-section {
+  border-top: 1px solid #cbd5d0;
+  padding-top: 22px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.composition-table {
+  border-collapse: collapse;
+  min-width: 900px;
+  width: 100%;
+}
+
+.composition-table th,
+.composition-table td {
+  border-bottom: 1px solid #dbe3df;
+  padding: 13px 12px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.composition-table thead th {
+  background: #e7efea;
+  color: #43554c;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+}
+
+.composition-table tbody th {
+  font-size: 0.94rem;
+}
+
+.composition-table tbody tr:hover {
+  background: #f1f7f3;
+}
+
+.state-message {
+  background: #ffffff;
+  border: 1px solid #d6dfda;
+  border-radius: 6px;
+  padding: 24px;
+}
+
+.state-message h2 {
+  margin-bottom: 8px;
+}
+
+.state-message p {
+  color: #52645b;
+  margin-bottom: 0;
+}
+
+@media (max-width: 880px) {
+  .filter-bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .metric-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .app-shell {
+    padding: 24px 16px 40px;
+  }
+
+  .filter-bar,
+  .metric-cards {
+    grid-template-columns: 1fr;
+  }
 }
