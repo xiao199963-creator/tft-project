@@ -1,5 +1,6 @@
 from app.models import MetaFilters
 from app.repository import get_composition, list_compositions, list_patches
+from app.seed_data import SUPPORTED_RANK_TIERS, SUPPORTED_REGIONS
 
 
 def test_list_patches_marks_one_current_patch():
@@ -22,6 +23,16 @@ def test_current_patch_has_a_comparable_stat_for_every_composition():
     assert len(comps) == 6
     assert {comp.stats.region for comp in comps} == {"OC1"}
     assert {comp.stats.rank_tier for comp in comps} == {"Diamond+"}
+
+
+def test_current_patch_covers_every_advertised_region_and_rank_filter():
+    for region in SUPPORTED_REGIONS:
+        for rank_tier in SUPPORTED_RANK_TIERS:
+            comps = list_compositions(MetaFilters(patch="14.15", region=region, rank_tier=rank_tier))
+
+            assert len(comps) == 6
+            assert {comp.stats.region for comp in comps} == {region}
+            assert {comp.stats.rank_tier for comp in comps} == {rank_tier}
 
 
 def test_get_composition_returns_units_traits_items_and_stats():

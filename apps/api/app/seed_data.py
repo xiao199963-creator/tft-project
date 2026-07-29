@@ -4,6 +4,9 @@ PATCHES = [
     {"id": "14.15", "display_name": "Patch 14.15", "release_date": "2026-07-10", "is_current": True},
 ]
 
+SUPPORTED_REGIONS = ["OC1", "NA1", "EUW1", "KR"]
+SUPPORTED_RANK_TIERS = ["Diamond+", "Platinum+", "Emerald+", "Master+"]
+
 COMPOSITIONS = [
     {
         "id": "comp-001",
@@ -120,3 +123,68 @@ COMPOSITIONS = [
         ],
     },
 ]
+
+
+REGION_ADJUSTMENTS = {
+    "OC1": {"placement": 0.0, "top_four": 0.0, "win": 0.0, "pick": 0.0, "games": 1.0},
+    "NA1": {"placement": 0.06, "top_four": -0.012, "win": -0.004, "pick": 0.008, "games": 2.2},
+    "EUW1": {"placement": 0.03, "top_four": -0.006, "win": -0.002, "pick": 0.004, "games": 1.9},
+    "KR": {"placement": -0.05, "top_four": 0.01, "win": 0.004, "pick": 0.006, "games": 1.5},
+}
+
+RANK_TIER_ADJUSTMENTS = {
+    "Diamond+": {"placement": 0.0, "top_four": 0.0, "win": 0.0, "pick": 0.0, "games": 1.0},
+    "Platinum+": {"placement": 0.08, "top_four": -0.014, "win": -0.006, "pick": 0.018, "games": 2.6},
+    "Emerald+": {"placement": 0.04, "top_four": -0.007, "win": -0.003, "pick": 0.01, "games": 1.7},
+    "Master+": {"placement": -0.08, "top_four": 0.014, "win": 0.006, "pick": -0.012, "games": 0.42},
+}
+
+
+def _clamp(value: float, lower: float, upper: float) -> float:
+    return max(lower, min(upper, value))
+
+
+def _variant_stat(base_stat: dict, region: str, rank_tier: str) -> dict:
+    region_adjustment = REGION_ADJUSTMENTS[region]
+    rank_adjustment = RANK_TIER_ADJUSTMENTS[rank_tier]
+
+    return {
+        "patch": base_stat["patch"],
+        "region": region,
+        "rank_tier": rank_tier,
+        "games": max(120, round(base_stat["games"] * region_adjustment["games"] * rank_adjustment["games"])),
+        "average_placement": round(
+            _clamp(
+                base_stat["average_placement"] + region_adjustment["placement"] + rank_adjustment["placement"],
+                3.2,
+                5.2,
+            ),
+            2,
+        ),
+        "top_four_rate": round(
+            _clamp(base_stat["top_four_rate"] + region_adjustment["top_four"] + rank_adjustment["top_four"], 0.35, 0.75),
+            3,
+        ),
+        "win_rate": round(
+            _clamp(base_stat["win_rate"] + region_adjustment["win"] + rank_adjustment["win"], 0.04, 0.28),
+            3,
+        ),
+        "pick_rate": round(
+            _clamp(base_stat["pick_rate"] + region_adjustment["pick"] + rank_adjustment["pick"], 0.01, 0.18),
+            3,
+        ),
+    }
+
+
+def _expand_stats_for_supported_filters() -> None:
+    for composition in COMPOSITIONS:
+        base_stats = list(composition["stats"])
+        composition["stats"] = [
+            _variant_stat(base_stat, region, rank_tier)
+            for base_stat in base_stats
+            for region in SUPPORTED_REGIONS
+            for rank_tier in SUPPORTED_RANK_TIERS
+        ]
+
+
+_expand_stats_for_supported_filters()
