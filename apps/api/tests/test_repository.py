@@ -1,0 +1,27 @@
+from app.models import MetaFilters
+from app.repository import get_composition, list_compositions, list_patches
+
+
+def test_list_patches_marks_one_current_patch():
+    patches = list_patches()
+
+    assert len(patches) >= 3
+    assert sum(1 for patch in patches if patch.is_current) == 1
+
+
+def test_list_compositions_filters_by_playstyle():
+    comps = list_compositions(MetaFilters(playstyle="Fast 8"))
+
+    assert comps
+    assert {comp.playstyle for comp in comps} == {"Fast 8"}
+
+
+def test_get_composition_returns_units_traits_items_and_stats():
+    comp = get_composition("rebel-fast-8", MetaFilters(region="OC1", rank_tier="Diamond+"))
+
+    assert comp is not None
+    assert comp.slug == "rebel-fast-8"
+    assert comp.units
+    assert comp.traits
+    assert comp.items
+    assert comp.stats.games > 0
