@@ -1,6 +1,7 @@
 .DS_Store
 .env
 .worktrees/
+apps/api/.test-deps/
 .venv/
 __pycache__/
 .pytest_cache/
