@@ -1,0 +1,13 @@
+:root {
+  font-family: Arial, sans-serif;
+  color: #1f2933;
+  background: #f7f9fc;
+}
+
+body {
+  margin: 0;
+}
+
+.app-shell {
+  padding: 2rem;
+}
