@@ -1,4 +1,5 @@
 from fastapi.testclient import TestClient
+import pytest
 
 from app.main import app
 
@@ -13,6 +14,23 @@ def test_comps_endpoint_returns_filtered_compositions():
     body = response.json()
     assert body["items"]
     assert {item["playstyle"] for item in body["items"]} == {"Fast 8"}
+
+
+@pytest.mark.parametrize(
+    ("sort_value", "reverse"),
+    [
+        ("average_placement", False),
+        ("win_rate", True),
+        ("top_four_rate", True),
+        ("pick_rate", True),
+    ],
+)
+def test_comps_endpoint_sorts_by_requested_statistic(sort_value: str, reverse: bool):
+    response = client.get("/comps", params={"sort": sort_value})
+
+    assert response.status_code == 200
+    values = [item["stats"][sort_value] for item in response.json()["items"]]
+    assert values == sorted(values, reverse=reverse)
 
 
 def test_comp_detail_endpoint_returns_404_for_unknown_slug():

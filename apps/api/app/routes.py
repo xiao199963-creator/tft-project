@@ -1,3 +1,5 @@
+from typing import Literal
+
 from fastapi import APIRouter, HTTPException
 
 from app.analytics import build_meta_summary
@@ -13,6 +15,8 @@ from app.models import (
 from app.repository import get_composition, list_compositions, list_patches
 
 router = APIRouter()
+
+CompositionSort = Literal["average_placement", "win_rate", "top_four_rate", "pick_rate"]
 
 
 def _filters(
@@ -40,8 +44,15 @@ def compositions(
     region: str | None = None,
     rank_tier: str | None = None,
     playstyle: str | None = None,
+    sort: CompositionSort | None = None,
 ) -> CompositionListResponse:
-    return CompositionListResponse(items=list_compositions(_filters(patch, region, rank_tier, playstyle)))
+    items = list_compositions(_filters(patch, region, rank_tier, playstyle))
+    if sort is not None:
+        items.sort(
+            key=lambda composition: getattr(composition.stats, sort),
+            reverse=sort != "average_placement",
+        )
+    return CompositionListResponse(items=items)
 
 
 @router.get("/comps/{comp_id}", response_model=CompositionDetail)
