@@ -1,5 +1,6 @@
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { fetchComps, fetchMetaSummary } from "../api/client";
 import DashboardPage from "./DashboardPage";
 
 vi.mock("../api/client", async (importOriginal) => ({
@@ -39,11 +40,26 @@ vi.mock("../api/client", async (importOriginal) => ({
 }));
 
 describe("DashboardPage", () => {
+  afterEach(() => {
+    cleanup();
+    vi.clearAllMocks();
+  });
+
   it("renders fetched meta data", async () => {
     render(<DashboardPage />);
 
     await waitFor(() => expect(screen.getByText("Rebel Fast 8")).toBeInTheDocument());
     expect(screen.getByText("1,200")).toBeInTheDocument();
+  });
+
+  it("loads the dashboard with the current patch selected", async () => {
+    const { container } = render(<DashboardPage />);
+
+    await waitFor(() => {
+      expect(fetchMetaSummary).toHaveBeenCalledWith({ patch: "14.15" });
+      expect(fetchComps).toHaveBeenCalledWith({ patch: "14.15" }, "average_placement");
+    });
+    expect(within(container).getByLabelText("Patch")).toHaveValue("14.15");
   });
 
   it("preserves active filters in composition detail links", async () => {

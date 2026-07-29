@@ -1,5 +1,6 @@
-from app.analytics import calculate_meta_score
-from app.models import CompositionStats
+from app.analytics import build_meta_summary, calculate_meta_score
+from app.models import CompositionStats, MetaFilters
+from app.repository import list_compositions
 
 
 def test_calculate_meta_score_rewards_good_placement_and_rates():
@@ -25,3 +26,20 @@ def test_calculate_meta_score_rewards_good_placement_and_rates():
     )
 
     assert calculate_meta_score(strong) > calculate_meta_score(weak)
+
+
+def test_build_meta_summary_weights_rates_by_games():
+    filters = MetaFilters(patch="14.15")
+    compositions = list_compositions(filters)
+    total_games = sum(composition.stats.games for composition in compositions)
+
+    summary = build_meta_summary(filters)
+
+    assert summary.average_top_four_rate == round(
+        sum(composition.stats.top_four_rate * composition.stats.games for composition in compositions) / total_games,
+        3,
+    )
+    assert summary.average_win_rate == round(
+        sum(composition.stats.win_rate * composition.stats.games for composition in compositions) / total_games,
+        3,
+    )

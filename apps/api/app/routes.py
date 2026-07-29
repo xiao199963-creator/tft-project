@@ -12,7 +12,7 @@ from app.models import (
     TrendPoint,
     TrendResponse,
 )
-from app.repository import get_composition, list_compositions, list_patches
+from app.repository import get_composition, list_compositions, list_patches, list_trend_stats
 
 router = APIRouter()
 
@@ -87,19 +87,20 @@ def trends(
     rank_tier: str | None = None,
     playstyle: str | None = None,
 ) -> TrendResponse:
-    composition = get_composition(comp_id, _filters(patch, region, rank_tier, playstyle))
-    if composition is None:
+    stats = list_trend_stats(comp_id, _filters(patch, region, rank_tier, playstyle))
+    if stats is None:
         raise HTTPException(status_code=404, detail="Composition not found")
 
     return TrendResponse(
         items=[
             TrendPoint(
-                patch=composition.stats.patch,
-                average_placement=composition.stats.average_placement,
-                top_four_rate=composition.stats.top_four_rate,
-                win_rate=composition.stats.win_rate,
-                pick_rate=composition.stats.pick_rate,
-                games=composition.stats.games,
+                patch=stat.patch,
+                average_placement=stat.average_placement,
+                top_four_rate=stat.top_four_rate,
+                win_rate=stat.win_rate,
+                pick_rate=stat.pick_rate,
+                games=stat.games,
             )
+            for stat in stats
         ]
     )

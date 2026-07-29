@@ -18,7 +18,11 @@ COMPOSITIONS = [
         "strengths": ["Strong capped board", "Flexible AD item holders"],
         "weaknesses": ["Needs stable economy", "Contested four-cost carries hurt consistency"],
         "timing_notes": ["Push level 8 on 4-2 when healthy", "Stabilise around upgraded four-cost carries"],
-        "stats": [{"patch": "14.15", "region": "OC1", "rank_tier": "Diamond+", "games": 18420, "average_placement": 3.72, "top_four_rate": 0.613, "win_rate": 0.176, "pick_rate": 0.089}],
+        "stats": [
+            {"patch": "14.13", "region": "OC1", "rank_tier": "Diamond+", "games": 12980, "average_placement": 4.02, "top_four_rate": 0.562, "win_rate": 0.136, "pick_rate": 0.076},
+            {"patch": "14.14", "region": "OC1", "rank_tier": "Diamond+", "games": 15760, "average_placement": 3.86, "top_four_rate": 0.592, "win_rate": 0.158, "pick_rate": 0.082},
+            {"patch": "14.15", "region": "OC1", "rank_tier": "Diamond+", "games": 18420, "average_placement": 3.72, "top_four_rate": 0.613, "win_rate": 0.176, "pick_rate": 0.089},
+        ],
     },
     {
         "id": "comp-002",
@@ -33,7 +37,11 @@ COMPOSITIONS = [
         "strengths": ["Reliable early tempo", "Low gold stabilisation"],
         "weaknesses": ["Caps below five-cost boards", "Needs three-star carry"],
         "timing_notes": ["Slow roll above 50 gold at level 6", "Level after core upgrades"],
-        "stats": [{"patch": "14.15", "region": "OC1", "rank_tier": "Diamond+", "games": 15290, "average_placement": 3.89, "top_four_rate": 0.584, "win_rate": 0.149, "pick_rate": 0.074}],
+        "stats": [
+            {"patch": "14.13", "region": "OC1", "rank_tier": "Diamond+", "games": 10580, "average_placement": 4.12, "top_four_rate": 0.544, "win_rate": 0.119, "pick_rate": 0.064},
+            {"patch": "14.14", "region": "OC1", "rank_tier": "Diamond+", "games": 13460, "average_placement": 4.01, "top_four_rate": 0.566, "win_rate": 0.132, "pick_rate": 0.069},
+            {"patch": "14.15", "region": "OC1", "rank_tier": "Diamond+", "games": 15290, "average_placement": 3.89, "top_four_rate": 0.584, "win_rate": 0.149, "pick_rate": 0.074},
+        ],
     },
     {
         "id": "comp-003",
@@ -48,7 +56,11 @@ COMPOSITIONS = [
         "strengths": ["Flexible pivot options", "Consistent mid-game"],
         "weaknesses": ["Requires positioning", "Can lose to capped boards"],
         "timing_notes": ["Roll on 3-5 for a stable level 7 board", "Push level 8 after stabilising"],
-        "stats": [{"patch": "14.15", "region": "NA1", "rank_tier": "Emerald+", "games": 12960, "average_placement": 4.03, "top_four_rate": 0.542, "win_rate": 0.121, "pick_rate": 0.063}],
+        "stats": [
+            {"patch": "14.13", "region": "OC1", "rank_tier": "Diamond+", "games": 9520, "average_placement": 4.31, "top_four_rate": 0.495, "win_rate": 0.092, "pick_rate": 0.048},
+            {"patch": "14.14", "region": "OC1", "rank_tier": "Diamond+", "games": 11340, "average_placement": 4.17, "top_four_rate": 0.518, "win_rate": 0.107, "pick_rate": 0.057},
+            {"patch": "14.15", "region": "OC1", "rank_tier": "Diamond+", "games": 12960, "average_placement": 4.03, "top_four_rate": 0.542, "win_rate": 0.121, "pick_rate": 0.063},
+        ],
     },
     {
         "id": "comp-004",
@@ -63,7 +75,11 @@ COMPOSITIONS = [
         "strengths": ["Very high cap", "Uses legendary units well"],
         "weaknesses": ["Fragile when behind", "Requires strong economy"],
         "timing_notes": ["Preserve health through stage 4", "Level 9 on 5-2 when possible"],
-        "stats": [{"patch": "14.15", "region": "EUW1", "rank_tier": "Master+", "games": 6450, "average_placement": 3.61, "top_four_rate": 0.629, "win_rate": 0.201, "pick_rate": 0.031}],
+        "stats": [
+            {"patch": "14.13", "region": "OC1", "rank_tier": "Diamond+", "games": 4210, "average_placement": 4.04, "top_four_rate": 0.558, "win_rate": 0.152, "pick_rate": 0.021},
+            {"patch": "14.14", "region": "OC1", "rank_tier": "Diamond+", "games": 5360, "average_placement": 3.78, "top_four_rate": 0.601, "win_rate": 0.181, "pick_rate": 0.026},
+            {"patch": "14.15", "region": "OC1", "rank_tier": "Diamond+", "games": 6450, "average_placement": 3.61, "top_four_rate": 0.629, "win_rate": 0.201, "pick_rate": 0.031},
+        ],
     },
     {
         "id": "comp-005",
@@ -78,7 +94,11 @@ COMPOSITIONS = [
         "strengths": ["Strong frontline", "Simple itemisation"],
         "weaknesses": ["Limited backline damage", "Falls off at level 9"],
         "timing_notes": ["Level aggressively through stage 3", "Roll to preserve streaks"],
-        "stats": [{"patch": "14.14", "region": "OC1", "rank_tier": "Platinum+", "games": 11340, "average_placement": 4.16, "top_four_rate": 0.508, "win_rate": 0.098, "pick_rate": 0.052}],
+        "stats": [
+            {"patch": "14.13", "region": "OC1", "rank_tier": "Diamond+", "games": 8740, "average_placement": 4.38, "top_four_rate": 0.472, "win_rate": 0.076, "pick_rate": 0.043},
+            {"patch": "14.14", "region": "OC1", "rank_tier": "Diamond+", "games": 11340, "average_placement": 4.16, "top_four_rate": 0.508, "win_rate": 0.098, "pick_rate": 0.052},
+            {"patch": "14.15", "region": "OC1", "rank_tier": "Diamond+", "games": 12760, "average_placement": 4.05, "top_four_rate": 0.529, "win_rate": 0.112, "pick_rate": 0.059},
+        ],
     },
     {
         "id": "comp-006",
@@ -93,6 +113,10 @@ COMPOSITIONS = [
         "strengths": ["Excellent single-target damage", "Strong with ideal positioning"],
         "weaknesses": ["Vulnerable to divers", "Dependent on three-star units"],
         "timing_notes": ["Slow roll at level 5 for the one-cost carry", "Scout every round before positioning"],
-        "stats": [{"patch": "14.13", "region": "KR", "rank_tier": "Diamond+", "games": 7980, "average_placement": 4.28, "top_four_rate": 0.477, "win_rate": 0.084, "pick_rate": 0.039}],
+        "stats": [
+            {"patch": "14.13", "region": "OC1", "rank_tier": "Diamond+", "games": 7980, "average_placement": 4.28, "top_four_rate": 0.477, "win_rate": 0.084, "pick_rate": 0.039},
+            {"patch": "14.14", "region": "OC1", "rank_tier": "Diamond+", "games": 9230, "average_placement": 4.12, "top_four_rate": 0.501, "win_rate": 0.096, "pick_rate": 0.045},
+            {"patch": "14.15", "region": "OC1", "rank_tier": "Diamond+", "games": 10480, "average_placement": 4.00, "top_four_rate": 0.526, "win_rate": 0.109, "pick_rate": 0.051},
+        ],
     },
 ]

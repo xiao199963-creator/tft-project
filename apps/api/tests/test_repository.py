@@ -16,6 +16,14 @@ def test_list_compositions_filters_by_playstyle():
     assert {comp.playstyle for comp in comps} == {"Fast 8"}
 
 
+def test_current_patch_has_a_comparable_stat_for_every_composition():
+    comps = list_compositions(MetaFilters(patch="14.15"))
+
+    assert len(comps) == 6
+    assert {comp.stats.region for comp in comps} == {"OC1"}
+    assert {comp.stats.rank_tier for comp in comps} == {"Diamond+"}
+
+
 def test_get_composition_returns_units_traits_items_and_stats():
     comp = get_composition("rebel-fast-8", MetaFilters(region="OC1", rank_tier="Diamond+"))
 

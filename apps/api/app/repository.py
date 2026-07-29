@@ -1,4 +1,5 @@
-from app.models import CompositionDetail, CompositionSummary, MetaFilters, Patch
+from app.analytics import calculate_meta_score
+from app.models import CompositionDetail, CompositionStats, CompositionSummary, MetaFilters, Patch
 from app.seed_data import COMPOSITIONS, PATCHES
 
 
@@ -18,10 +19,6 @@ def _matching_stat(composition: dict, filters: MetaFilters) -> dict | None:
     )
 
 
-def _meta_score(stat: dict) -> float:
-    return round((5 - stat["average_placement"]) * 20 + stat["top_four_rate"] * 20, 1)
-
-
 def _summary(composition: dict, stat: dict) -> CompositionSummary:
     return CompositionSummary(
         id=composition["id"],
@@ -31,7 +28,7 @@ def _summary(composition: dict, stat: dict) -> CompositionSummary:
         difficulty=composition["difficulty"],
         summary=composition["summary"],
         stats=stat,
-        meta_score=_meta_score(stat),
+        meta_score=calculate_meta_score(CompositionStats(**stat)),
     )
 
 
@@ -67,3 +64,18 @@ def get_composition(slug: str, filters: MetaFilters) -> CompositionDetail | None
         weaknesses=composition["weaknesses"],
         timing_notes=composition["timing_notes"],
     )
+
+
+def list_trend_stats(slug: str, filters: MetaFilters) -> list[CompositionStats] | None:
+    composition = next((comp for comp in COMPOSITIONS if comp["slug"] == slug), None)
+    if composition is None:
+        return None
+
+    trend_filters = filters.model_copy(update={"patch": None})
+    patch_order = {patch["id"]: index for index, patch in enumerate(PATCHES)}
+    stats = [
+        CompositionStats(**stat)
+        for stat in composition["stats"]
+        if _matches_filters(stat, composition, trend_filters)
+    ]
+    return sorted(stats, key=lambda stat: patch_order[stat.patch])

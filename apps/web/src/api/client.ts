@@ -41,8 +41,11 @@ export function fetchMetaSummary(filters: MetaFilters): Promise<MetaSummary> {
   return fetchJson(`/stats/meta${buildQueryString({ filters })}`);
 }
 
-export function fetchCompDetail(slug: string, filters: MetaFilters): Promise<CompositionDetail> {
-  return fetchJson(`/comps/${encodeURIComponent(slug)}${buildQueryString({ filters })}`);
+export async function fetchCompDetail(slug: string, filters: MetaFilters): Promise<CompositionDetail | null> {
+  const response = await fetch(`${apiBaseUrl}/comps/${encodeURIComponent(slug)}${buildQueryString({ filters })}`);
+  if (response.status === 404) return null;
+  if (!response.ok) throw new Error(`Request failed: ${response.status}`);
+  return response.json() as Promise<CompositionDetail>;
 }
 
 export function fetchTrends(slug: string, filters: MetaFilters): Promise<TrendResponse> {

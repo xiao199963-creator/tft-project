@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchCompDetail, fetchTrends } from "../api/client";
+import { buildQueryString, fetchCompDetail, fetchTrends } from "../api/client";
 import { DetailLists } from "../components/DetailLists";
 import { StateMessage } from "../components/StateMessage";
 import { TrendChart } from "../components/TrendChart";
@@ -30,9 +30,10 @@ export default function CompDetailPage({ slug, filters = emptyFilters }: CompDet
     async function loadComposition() {
       setState("loading");
       try {
+        const { patch: _selectedPatch, ...trendFilters } = filters;
         const [detailResponse, trendResponse] = await Promise.all([
           fetchCompDetail(slug, filters),
-          fetchTrends(slug, filters),
+          fetchTrends(slug, trendFilters),
         ]);
 
         if (!active) return;
@@ -61,7 +62,7 @@ export default function CompDetailPage({ slug, filters = emptyFilters }: CompDet
           <p className="eyebrow">Teamfight Tactics</p>
           <h1>Composition detail</h1>
         </div>
-        <a className="back-link" href="/">All compositions</a>
+        <a className="back-link" href={`/${buildQueryString({ filters })}`}>All compositions</a>
       </header>
 
       {state === "loading" && (

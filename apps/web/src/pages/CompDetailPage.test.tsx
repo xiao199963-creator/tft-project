@@ -1,8 +1,10 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { cleanup, render, screen, waitFor, within } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { fetchTrends } from "../api/client";
 import CompDetailPage from "./CompDetailPage";
 
-vi.mock("../api/client", () => ({
+vi.mock("../api/client", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../api/client")>()),
   fetchCompDetail: vi.fn(async () => ({
     id: "comp-001",
     name: "Rebel Fast 8",
@@ -37,11 +39,26 @@ vi.mock("../api/client", () => ({
 }));
 
 describe("CompDetailPage", () => {
+  afterEach(() => {
+    cleanup();
+    vi.clearAllMocks();
+  });
+
   it("renders composition detail and trend section", async () => {
     render(<CompDetailPage slug="rebel-fast-8" />);
 
     await waitFor(() => expect(screen.getByText("Rebel Fast 8")).toBeInTheDocument());
     expect(screen.getByText("Jinx")).toBeInTheDocument();
     expect(screen.getByText(/Patch Trend/i)).toBeInTheDocument();
+  });
+
+  it("does not pass the selected patch to the trend request", async () => {
+    const { container } = render(<CompDetailPage slug="rebel-fast-8" filters={{ patch: "14.15", region: "OC1" }} />);
+
+    await waitFor(() => expect(fetchTrends).toHaveBeenCalledWith("rebel-fast-8", { region: "OC1" }));
+    expect(within(container).getByRole("link", { name: "All compositions" })).toHaveAttribute(
+      "href",
+      "/?patch=14.15&region=OC1",
+    );
   });
 });

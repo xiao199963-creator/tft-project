@@ -1,5 +1,4 @@
 from app.models import CompositionStats, MetaFilters, MetaSummary
-from app.repository import list_compositions
 
 
 def calculate_meta_score(stats: CompositionStats) -> float:
@@ -11,6 +10,8 @@ def calculate_meta_score(stats: CompositionStats) -> float:
 
 
 def build_meta_summary(filters: MetaFilters) -> MetaSummary:
+    from app.repository import list_compositions
+
     compositions = list_compositions(filters)
     count = len(compositions)
 
@@ -22,14 +23,15 @@ def build_meta_summary(filters: MetaFilters) -> MetaSummary:
             composition_count=0,
         )
 
+    total_games = sum(composition.stats.games for composition in compositions)
     return MetaSummary(
-        total_games=sum(composition.stats.games for composition in compositions),
+        total_games=total_games,
         average_top_four_rate=round(
-            sum(composition.stats.top_four_rate for composition in compositions) / count,
+            sum(composition.stats.top_four_rate * composition.stats.games for composition in compositions) / total_games,
             3,
         ),
         average_win_rate=round(
-            sum(composition.stats.win_rate for composition in compositions) / count,
+            sum(composition.stats.win_rate * composition.stats.games for composition in compositions) / total_games,
             3,
         ),
         composition_count=count,

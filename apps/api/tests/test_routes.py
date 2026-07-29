@@ -1,7 +1,9 @@
 from fastapi.testclient import TestClient
 import pytest
 
+from app.analytics import calculate_meta_score
 from app.main import app
+from app.models import CompositionStats
 
 
 client = TestClient(app)
@@ -58,4 +60,22 @@ def test_trends_endpoint_returns_patch_ordered_points():
 
     assert response.status_code == 200
     patches = [point["patch"] for point in response.json()["items"]]
-    assert patches == sorted(patches)
+    assert patches == ["14.13", "14.14", "14.15"]
+
+
+def test_trends_endpoint_ignores_selected_patch_but_keeps_other_filters():
+    response = client.get(
+        "/stats/trends/rebel-fast-8",
+        params={"patch": "14.15", "region": "OC1", "rank_tier": "Diamond+"},
+    )
+
+    assert response.status_code == 200
+    assert [point["patch"] for point in response.json()["items"]] == ["14.13", "14.14", "14.15"]
+
+
+def test_comps_endpoint_uses_documented_meta_score_formula():
+    response = client.get("/comps", params={"patch": "14.15"})
+
+    assert response.status_code == 200
+    item = response.json()["items"][0]
+    assert item["meta_score"] == calculate_meta_score(CompositionStats(**item["stats"]))

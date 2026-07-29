@@ -18,21 +18,45 @@ export default function DashboardPage() {
   const [summary, setSummary] = useState<MetaSummary | null>(null);
   const [compositions, setCompositions] = useState<CompositionSummary[]>([]);
   const [state, setState] = useState<LoadState>("loading");
+  const [patchesLoaded, setPatchesLoaded] = useState(false);
 
   useEffect(() => {
+    let active = true;
+
+    async function loadPatches() {
+      try {
+        const patchResponse = await fetchPatches();
+        if (!active) return;
+        setPatches(patchResponse.items);
+        const currentPatch = patchResponse.items.find((patch) => patch.is_current);
+        if (currentPatch) {
+          setFilters((currentFilters) => currentFilters.patch ? currentFilters : { ...currentFilters, patch: currentPatch.id });
+        }
+        setPatchesLoaded(true);
+      } catch {
+        if (active) setState("error");
+      }
+    }
+
+    void loadPatches();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!patchesLoaded) return;
     let active = true;
 
     async function loadDashboard() {
       setState("loading");
       try {
-        const [patchResponse, summaryResponse, compositionResponse] = await Promise.all([
-          fetchPatches(),
+        const [summaryResponse, compositionResponse] = await Promise.all([
           fetchMetaSummary(filters),
           fetchComps(filters, sort),
         ]);
 
         if (!active) return;
-        setPatches(patchResponse.items);
         setSummary(summaryResponse);
         setCompositions(compositionResponse.items);
         setState(compositionResponse.items.length ? "ready" : "empty");
@@ -45,7 +69,7 @@ export default function DashboardPage() {
     return () => {
       active = false;
     };
-  }, [filters, sort]);
+  }, [filters, patchesLoaded, sort]);
 
   return (
     <main className="app-shell">
