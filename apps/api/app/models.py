@@ -65,3 +65,31 @@ class CompositionDetail(CompositionSummary):
     strengths: list[str]
     weaknesses: list[str]
     timing_notes: list[str]
+
+
+class CompositionListResponse(BaseModel):
+    items: list[CompositionSummary]
+
+
+class PatchListResponse(BaseModel):
+    items: list[Patch]
+
+
+class MetaSummary(BaseModel):
+    total_games: int
+    average_top_four_rate: float
+    average_win_rate: float
+    composition_count: int
+
+
+class TrendPoint(BaseModel):
+    patch: str
+    average_placement: float
+    top_four_rate: float
+    win_rate: float
+    pick_rate: float
+    games: int
+
+
+class TrendResponse(BaseModel):
+    items: list[TrendPoint]

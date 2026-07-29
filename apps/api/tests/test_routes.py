@@ -1,0 +1,30 @@
+from fastapi.testclient import TestClient
+
+from app.main import app
+
+
+client = TestClient(app)
+
+
+def test_comps_endpoint_returns_filtered_compositions():
+    response = client.get("/comps", params={"region": "OC1", "rank_tier": "Diamond+", "playstyle": "Fast 8"})
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["items"]
+    assert {item["playstyle"] for item in body["items"]} == {"Fast 8"}
+
+
+def test_comp_detail_endpoint_returns_404_for_unknown_slug():
+    response = client.get("/comps/not-a-real-comp")
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Composition not found"
+
+
+def test_trends_endpoint_returns_patch_ordered_points():
+    response = client.get("/stats/trends/rebel-fast-8", params={"region": "OC1", "rank_tier": "Diamond+"})
+
+    assert response.status_code == 200
+    patches = [point["patch"] for point in response.json()["items"]]
+    assert patches == sorted(patches)
