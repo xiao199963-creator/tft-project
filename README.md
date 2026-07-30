@@ -8,8 +8,6 @@ Version 1 intentionally uses curated, static aggregate mock data. It needs no Ri
 
 ![TFT Meta Analytics Dashboard](docs/screenshots/dashboard.png)
 
-Replace this placeholder with a local dashboard capture after running the stack and before publishing the project portfolio.
-
 ## Architecture
 
 ```mermaid
